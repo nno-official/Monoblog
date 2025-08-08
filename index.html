@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MonoBlog — zero‑build</title>
+  <meta name="color-scheme" content="dark light" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { accent: '#ff6a2b' },
+      fontFamily: { sans: ['Space Grotesk','ui-sans-serif','system-ui','Segoe UI','Roboto','Helvetica','Arial'],
+                    mono: ['IBM Plex Mono','ui-monospace','SFMono-Regular','Menlo','Monaco'] } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <style>
+    :root { --ring: 0 0 0 1px rgb(255 255 255 / .08); }
+    body{ font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    .hairline{ box-shadow: inset 0 -1px 0 0 rgb(255 255 255 /.08); }
+    .frame{ box-shadow: var(--ring); }
+    .glow:before{ content:''; position: fixed; inset: -10vmax; pointer-events:none;
+      background: radial-gradient(60vmax 30vmax at 20% 90%, rgba(255,106,43,.15), transparent),
+                  radial-gradient(50vmax 30vmax at 90% 10%, rgba(255,255,255,.06), transparent);
+      filter: blur(20px); z-index:-1; }
+    .badge{ border:1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); }
+  </style>
+</head>
+<body class="bg-neutral-950 text-neutral-100 glow">
+  <div class="max-w-5xl mx-auto px-5 py-7">
+    <header class="flex items-center justify-between mb-8">
+      <div class="text-sm font-mono tracking-widest text-neutral-400">Lucidia Labs</div>
+      <nav class="hidden md:flex items-center gap-5 text-neutral-400">
+        <a class="text-sm hover:text-white" href="#/">Home</a>
+        <a class="text-sm hover:text-white" href="#/tag/intro">Archive</a>
+        <a class="text-sm hover:text-white" href="feed.xml" target="_blank" rel="noopener">RSS</a>
+        <button id="themeToggle" class="badge rounded px-2 py-1 text-xs hover:bg-white/10">Toggle theme</button>
+      </nav>
+    </header>
+    <section class="relative rounded-2xl frame bg-black/20 p-8 md:p-12 mb-8">
+      <div class="absolute inset-x-6 top-6 flex gap-2">
+        <span class="badge rounded-full px-2 py-0.5 text-[11px] uppercase tracking-widest">New</span>
+        <span class="font-mono text-xs text-neutral-400">Auto index & RSS ready</span>
+      </div>
+      <div class="text-center mt-8">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+          <span class="text-white">DO YOU REMEMBER</span>
+          <span class="text-accent block italic">WHO YOU WERE?</span>
+        </h1>
+        <p class="mt-4 max-w-2xl mx-auto text-neutral-300 font-mono text-sm">We ship a blog the mind won’t forget: zero build, hairline borders, neon accents. Markdown in, pages out.</p>
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <a href="#posts" class="badge rounded px-4 py-2 text-sm hover:bg-white/10">Begin reading</a>
+          <a href="https://github.com/nno-official/Monoblog" class="rounded px-4 py-2 text-sm ring-1 ring-white/20 hover:bg-white/10" target="_blank">View source</a>
+        </div>
+      </div>
+      <div class="mt-10 hairline"></div>
+      <div class="mt-6 flex flex-wrap items-center gap-3 text-neutral-400 font-mono text-xs">
+        <span class="uppercase tracking-widest">/ Hash routes</span>
+        <span>#/post/&lt;slug&gt;</span><span>·</span><span>Light/Dark toggle</span><span>·</span><span>RSS</span>
+      </div>
+    </section>
+    <section id="posts" class="mb-5">
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <input id="search" placeholder="Search title, summary, tag…" class="w-full sm:w-96 bg-black/30 frame rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-white/30" />
+        <div id="tags" class="flex flex-wrap gap-2 text-[11px] uppercase tracking-widest"></div>
+        <div class="ml-auto text-[11px] uppercase tracking-widest text-neutral-500">/ <span id="count">0</span> posts</div>
+      </div>
+      <main id="listView" class="grid md:grid-cols-2 gap-5"></main>
+      <article id="postView" class="hidden">
+        <a href="#/" class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-neutral-400 hover:text-white mb-6">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg> Back
+        </a>
+        <header class="mb-6">
+          <div id="postCover" class="aspect-[16/9] rounded-2xl frame bg-gradient-to-br from-accent/15 to-white/5 overflow-hidden mb-4"></div>
+          <h1 id="postTitle" class="text-3xl md:text-5xl font-semibold tracking-tight"></h1>
+          <div class="mt-2 text-sm text-neutral-400" id="postMeta"></div>
+          <div class="mt-3 flex flex-wrap gap-2" id="postTags"></div>
+        </header>
+        <div id="postContent" class="prose prose-invert prose-neutral max-w-none"></div>
+      </article>
+      <footer class="mt-14 text-center text-xs text-neutral-500">
+        <div class="uppercase tracking-[0.35em]">/ Built by Nay Naing Oo</div>
+        <div class="mt-3 flex items-center justify-center gap-4">
+          <a href="https://github.com/nno-official/Monoblog" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-neutral-400 hover:text-white">
+            <span class="uppercase tracking-widest text-[11px]">View source on GitHub</span>
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M10 7h7v7"/></svg>
+          </a>
+          <a href="feed.xml" class="inline-flex items-center gap-2 text-neutral-400 hover:text-white"><span class="uppercase tracking-widest text-[11px]">RSS</span></a>
+        </div>
+      </footer>
+    </section>
+  </div>
+  <script>
+    const STATE = { posts: [], filtered: [], tags: new Set(), activeTag: 'all' };
+    const $ = s => document.querySelector(s);
+    const listView = $('#listView'), postView = $('#postView'), tagsEl = $('#tags'), countEl = $('#count'), searchEl = $('#search');
+    const themeBtn = document.getElementById('themeToggle'); const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme'); if (savedTheme === 'light') root.classList.remove('dark');
+    themeBtn?.addEventListener('click', () => { root.classList.toggle('dark'); localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); });
+    const formatDate = iso => iso ? new Date(iso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}) : '';
+    const badgeHTML = t => `<span class="badge rounded-full px-2 py-0.5 text-[10px] uppercase tracking-widest">${t}</span>`;
+    function renderTags(){ tagsEl.innerHTML=''; STATE.tags.forEach(t=>{ const b=document.createElement('button'); b.textContent=t; b.className='badge rounded-full px-3 py-1 text-[11px] uppercase tracking-widest hover:bg-white/10 ' + (STATE.activeTag===t?'bg-white/10':''); b.onclick=()=>{STATE.activeTag=t; filterAndRender(); location.hash='#/tag/'+encodeURIComponent(t)}; tagsEl.appendChild(b); }); }
+    function matches(p,q){ if(STATE.activeTag!=='all'&&!p.tags.includes(STATE.activeTag)) return false; if(!q) return true; q=q.toLowerCase(); return p.title.toLowerCase().includes(q)||p.summary.toLowerCase().includes(q)||p.tags.join(' ').toLowerCase().includes(q); }
+    function filterAndRender(){ const q=searchEl.value.trim(); STATE.filtered=STATE.posts.filter(p=>matches(p,q)); countEl.textContent=STATE.filtered.length; renderList(); }
+    function card(p){ const fresh=(Date.now()-new Date(p.date))<1209600000; const cover=p.cover?`<img src="${p.cover}" class="h-40 w-full object-cover"/>`:'<div class="h-40 w-full bg-gradient-to-br from-accent/20 to-white/10"></div>'; const mins=Math.max(1,Math.ceil((p.summary.split(/\s+/).length+120)/200)); return `<article class="rounded-2xl frame bg-black/20 hover:bg-black/30 transition overflow-hidden"><a class="block" href="#/post/${p.slug}"><div class="aspect-[16/9] overflow-hidden">${cover}</div><div class="p-4"><div class="flex items-center gap-2 text-neutral-500 text-xs font-mono">${fresh?badgeHTML('New'):''}<span>${formatDate(p.date)} · ${mins} min</span></div><h2 class="text-xl md:text-2xl font-semibold mt-1">${p.title}</h2><p class="text-neutral-400 mt-2 line-clamp-2">${p.summary}</p><div class="flex gap-2 mt-3">${p.tags.map(t=>`<span class="badge px-2 py-0.5 rounded-full text-[10px] uppercase tracking-widest text-neutral-300">${t}</span>`).join('')}</div></div></a></article>`;}
+    function renderList(){ postView.classList.add('hidden'); listView.classList.remove('hidden'); listView.innerHTML=STATE.filtered.map(card).join(''); }
+    async function renderPost(slug){ const p=STATE.posts.find(p=>p.slug===slug); if(!p){ listView.innerHTML='<p class="text-neutral-400">Post not found.</p>'; postView.classList.add('hidden'); listView.classList.remove('hidden'); return;} postView.classList.remove('hidden'); listView.classList.add('hidden'); $('#postTitle').textContent=p.title; $('#postMeta').textContent=`${formatDate(p.date)} · ${p.tags.join(', ')}`; $('#postTags').innerHTML=p.tags.map(t=>`<span class="badge px-2 py-0.5 rounded-full text-[10px] uppercase tracking-widest text-neutral-300">${t}</span>`).join(''); $('#postCover').innerHTML=p.cover?`<img src="${p.cover}" class="h-full w-full object-cover"/>`:'<div class="h-full w-full bg-gradient-to-br from-accent/20 to-white/10"></div>'; const res=await fetch(p.file); const md=await res.text(); const html=DOMPurify.sanitize(marked.parse(md)); $('#postContent').innerHTML=html; window.scrollTo({top:0,behavior:'smooth'}); }
+    function handleRoute(){ const hash=location.hash||'#/' ; const m=hash.match(/^#\/([^\/]+)?\/?(.*)?$/)||[]; const path=m[1], param=m[2]; if(!path){ postView.classList.add('hidden'); listView.classList.remove('hidden'); return;} if(path==='post'&&param){ renderPost(decodeURIComponent(param)); } else if(path==='tag'&&param){ STATE.activeTag=decodeURIComponent(param)||'all'; renderTags(); filterAndRender(); listView.scrollIntoView({behavior:'smooth'}); } else { postView.classList.add('hidden'); listView.classList.remove('hidden'); } }
+    async function loadIndex(){ const res=await fetch('posts/index.json?v='+Date.now()); const data=await res.json(); STATE.posts=data.sort((a,b)=>(b.date>a.date?1:-1)); STATE.tags=new Set(['all',...STATE.posts.flatMap(p=>p.tags||[])]); renderTags(); filterAndRender(); }
+    window.addEventListener('hashchange', handleRoute); searchEl.addEventListener('input', filterAndRender); loadIndex().then(handleRoute);
+  </script>
+</body>
+</html>

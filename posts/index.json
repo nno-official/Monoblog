@@ -1,0 +1,25 @@
+[
+  {
+    "slug": "hello-mono",
+    "title": "Hello, MonoBlog",
+    "date": "2025-08-08",
+    "tags": [
+      "meta",
+      "intro"
+    ],
+    "summary": "What this project is, how it avoids build tools, and how to add your first post.",
+    "file": "posts/hello-mono.md",
+    "cover": "covers/hello-mono.svg"
+  },
+  {
+    "slug": "ink-and-contrast",
+    "title": "Ink & Contrast",
+    "date": "2025-08-08",
+    "tags": [
+      "design"
+    ],
+    "summary": "A short riff on monochrome UI, hairline rules, and uppercase micro-labels.",
+    "file": "posts/ink-and-contrast.md",
+    "cover": "covers/ink-and-contrast.svg"
+  }
+]
