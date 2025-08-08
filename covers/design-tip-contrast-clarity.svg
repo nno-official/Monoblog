@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+  <title id="t">Design Tip — Contrast &amp; Clarity</title>
+  <desc id="d">Dark canvas with subtle white halo, orange diagonal strokes, and a framed title.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#141414"/>
+      <stop offset="1" stop-color="#0b0b0b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="80%" cy="18%" r="55%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="18%" cy="82%" r="60%">
+      <stop offset="0" stop-color="#ff6a2b" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#ff6a2b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stroke" x1="0" x2="1">
+      <stop offset="0" stop-color="#ff6a2b"/>
+      <stop offset="1" stop-color="#ffd1bf"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g opacity=".9" stroke="url(#stroke)" stroke-linecap="round">
+    <line x1="120" y1="565" x2="700" y2="150" stroke-width="7"/>
+    <line x1="170" y1="585" x2="820" y2="180" stroke-width="3" opacity=".65"/>
+  </g>
+  <rect x="28" y="28" width="1144" height="574" rx="18" fill="none" stroke="#ffffff" opacity=".08"/>
+  <g font-family="Space Grotesk, Arial, sans-serif">
+    <text x="60" y="520" fill="#ffffff" font-size="64" font-weight="700">Design Tip — Contrast &amp;</text>
+    <text x="60" y="586" fill="#ff6a2b" font-size="88" font-weight="700" font-style="italic">Clarity</text>
+  </g>
+</svg>
