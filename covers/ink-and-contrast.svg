@@ -1,6 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
-  <defs><linearGradient id="a" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#1b1b1b"/><stop offset="1" stop-color="#0f0f0f"/></linearGradient>
-  <radialGradient id="b" cx="80%" cy="20%" r="60%"><stop offset="0" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>
-  <rect width="100%" height="100%" fill="url(#a)"/><circle cx="200" cy="120" r="400" fill="url(#b)"/>
-  <text x="60" y="520" fill="#fff" font-family="Space Grotesk, Arial" font-size="72" font-weight="700">Ink & Contrast</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+  <title id="t">Ink &amp; Contrast — cover</title>
+  <desc id="d">Dark canvas with soft white glow and an orange orb; thin frame and title.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#151515"/>
+      <stop offset="1" stop-color="#0b0b0b"/>
+    </linearGradient>
+    <radialGradient id="glowW" cx="80%" cy="20%" r="55%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb" cx="15%" cy="85%" r="45%">
+      <stop offset="0" stop-color="#ff6a2b" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#ff6a2b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glowW)"/>
+  <rect width="1200" height="630" fill="url(#orb)"/>
+  <rect x="28" y="28" width="1144" height="574" rx="18" fill="none" stroke="#ffffff" opacity=".08"/>
+  <g font-family="Space Grotesk, Arial, sans-serif">
+    <text x="60" y="520" fill="#ffffff" font-size="76" font-weight="700">Ink &amp; Contrast</text>
+  </g>
 </svg>
